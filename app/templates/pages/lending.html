@@ -22,7 +22,7 @@
       <p>Item code: {{ lend.item_code }}</p>
       <p>Quantity: {{ lend.lending_quantity}}</p>
       <p>Status: {{ lend.status }}</p>
-      <form method="POST" action="{% url 'src:lending' %}">
+      <form method="POST" action="{% url 'lending' %}">
         {% csrf_token %}
         <input type="hidden" name="lend-code" value="{{ lend.id }}" readonly>
         <input type="hidden" name="item-code" value="{{ lend.item_code }}" readonly>

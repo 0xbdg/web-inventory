@@ -1,4 +1,4 @@
-{% extends "layout/base.html" %}
+{% extends "base.html" %}
 {% load static%}
 {% block title %} Category {% endblock %}
 {% block css%} <link rel="stylesheet" href="{% static 'css/user.css'%}"> {% endblock%}
@@ -28,7 +28,7 @@
                 <p>Quantity: {{ product.quantity }} </p>
                 <p>Room: {{ product.room}} </p>
                 <p>Categories: {{ product.category }}</p>
-                <button class="order" onclick="window.location.href='{% url 'src:category-detail' item_id=product.id %}'">Pinjam</button>
+                <button class="order" onclick="window.location.href='{% url 'category-detail' item_id=product.id %}'">Pinjam</button>
             </div>
         {% endfor %}
     </div>

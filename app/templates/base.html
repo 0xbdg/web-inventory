@@ -1,9 +1,8 @@
-{% load static %}
+{% load static tailwind_tags%}
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>{% block title%}{%endblock%}</title>
-        {% block css%} {%endblock%}
+        <title>{% block title%}{% endblock%}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta charset="UTF-8" />
 
@@ -11,11 +10,20 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link rel="icon" href="{% static 'img/metland.png' %}" />
         <link href="https://fonts.googleapis.com/css2?family=Koh+Santepheap&display=swap" rel="stylesheet" />
-
         <script src="https://kit.fontawesome.com/fc882e8665.js" crossorigin="anonymous"></script>
+
+        {% tailwind_css %}
     </head>
     <body>
-        {% block navbar %} {% endblock navbar %} {% block contents %} {% endblock contents %} {% block footer %} {%endblock footer%}
+        <div class="flex h-screen bg-gray-100">
+            {% block navbar %} {% endblock navbar %} 
+            <div class="flex flex-col flex-1 overflow-y-auto">
+                {% block header %} {% endblock %}
+                <div class="p-4">
+                    {% block contents %} {% endblock contents %}
+                </div>
+            </div>
+        </div>
         <script src="{% static 'js/main.js' %}"></script>
     </body>
 </html>

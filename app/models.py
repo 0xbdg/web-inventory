@@ -39,7 +39,7 @@ class UserManager(BaseUserManager):
         return self.create_user(username, email, password, **extra_fields)
 
 
-class tbl_account(AbstractBaseUser, PermissionsMixin):
+class Account(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=150, unique=True)
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
@@ -78,9 +78,10 @@ class tbl_account(AbstractBaseUser, PermissionsMixin):
        return self.username
 
     class Meta:
-        db_table = 'tbl_client'
+        verbose_name = "Akun"
+        verbose_name_plural = "Akun"
 
-class tbl_item(models.Model):
+class Barang(models.Model):
   id = models.CharField(primary_key=True,default=uuid.uuid4,editable=False, max_length=36)
   name = models.CharField(max_length=100, null=True)
   category = models.CharField(max_length=100, choices=ITEMS, null=True)
@@ -95,11 +96,15 @@ class tbl_item(models.Model):
   def __str__(self):
     return f"{self.name}"
   
-class tbl_loan(models.Model):
+  class Meta:
+     verbose_name="Barang"
+     verbose_name_plural = "Barang"
+  
+class Peminjaman(models.Model):
   id = models.CharField(primary_key=True,default=uuid.uuid4,editable=False, max_length=36)
   item_code = models.CharField(editable=False, max_length=36)
-  client = models.ForeignKey(tbl_account,on_delete=models.CASCADE,max_length=255,editable=False)
-  item = models.ForeignKey(tbl_item, on_delete=models.CASCADE, null=True, editable=False)
+  client = models.ForeignKey(Account,on_delete=models.CASCADE,max_length=255,editable=False)
+  item = models.ForeignKey(Barang, on_delete=models.CASCADE, null=True, editable=False)
   room = models.CharField(max_length=100,choices=ROOMS,null=True, editable=False)
   category = models.CharField(max_length=100,choices=ITEMS,null=True, editable=False)
   lending_quantity = models.PositiveIntegerField(null=True, editable=False)
@@ -108,7 +113,6 @@ class tbl_loan(models.Model):
   return_time = models.DateTimeField(null=True, blank=True, editable=False)
   status = models.CharField(max_length=50,choices=STATUS_CHOICES,null=True)
 
-class tbl_feedback(models.Model):
-  subject = models.CharField(max_length=255, null=True, editable=False)
-  description = models.TextField(null=True, editable=False)
-  date = models.DateTimeField(default=datetime.datetime.now, editable=False)
+  class Meta:
+     verbose_name = "Peminjaman"
+     verbose_name_plural = "Peminjaman"

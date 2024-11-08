@@ -22,7 +22,7 @@ class LendingConfigAdmin(admin.ModelAdmin):
     readonly_fields = ["description"]
 
 class CustomUserAdmin(UserAdmin):
-    model = tbl_account
+    model = Account
     list_display = ['username', 'first_name', 'last_name','email','phonenumber', 'is_staff', 'is_active', 'date_joined']
     fieldsets = (
         (None, {'fields': ('email', 'username', 'password')}),
@@ -39,11 +39,7 @@ class CustomUserAdmin(UserAdmin):
     search_fields = ('email', 'username', 'firstname', 'lastname', 'phonenumber')
     ordering = ('email',)
 
-class FeedbackConfigAdmin(admin.ModelAdmin):
-    list_display = ('subject', 'description','date')
-
 admin.site.unregister(Group)
-admin.site.register(tbl_feedback, FeedbackConfigAdmin)
-admin.site.register(tbl_account, CustomUserAdmin)
-admin.site.register(tbl_item, ItemConfigAdmin)
-admin.site.register(tbl_loan, LendingConfigAdmin)
+admin.site.register(Account, CustomUserAdmin)
+admin.site.register(Barang, ItemConfigAdmin)
+admin.site.register(Peminjaman, LendingConfigAdmin)

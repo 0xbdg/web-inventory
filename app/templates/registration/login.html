@@ -1,10 +1,10 @@
-{% extends 'layout/base.html' %} {% load static %} {%block title %} Login
+{% extends 'layout/base.html' %} {% load static %} {% block title %} Login
 {%endblock%} {%block css %}
 <link rel="stylesheet" href="{% static 'css/auth.css' %}" /> {% endblock %}
 {%block contents%}
 <div id="container">
   {%include 'components/header.html' with title="Welcome Back"%}
-  <form method="POST" action="{% url 'src:login'%}">
+  <form method="POST" action="{% url 'login'%}">
     {%csrf_token%}
     <h1 class="title-form">Login Account</h1>
     {% if form.errors %}
@@ -22,7 +22,7 @@
     />
     <label for="show">Show Password</label><br />
     <input type="submit" class="masuk" value="Login" /><br />
-    <span>No have account? <a href="{% url 'src:register' %}">Sign Up</a></span>
+    <span>No have account? <a href="{% url 'register' %}">Sign Up</a></span>
   </form>
 </div>
 {%endblock contents%}

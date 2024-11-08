@@ -22,9 +22,6 @@ def telegram_notify(message):
 
 # Create your views here.
 
-def index(request):
-    return render(request, "pages/index.html")
-
 @login_required
 def home(request):
     return render(request,"pages/home.html")
@@ -34,7 +31,7 @@ def register(request):
         forms = RegistsForm(request.POST or None)
         if forms.is_valid():
             forms.save()
-            return redirect("src:login")
+            return redirect("login")
     else:
         forms = RegistsForm()
 
@@ -47,7 +44,7 @@ def signin(request):
             
             user = forms.get_user()
             login(request, user)
-            return redirect('src:home') 
+            return redirect('home') 
     else:
         forms = LoginForm()
         
@@ -64,7 +61,7 @@ def change_password(request):
         form = PasswordChangeForm(user=request.user,data=request.POST)
         if form.is_valid():
             form.save()
-            return redirect("src:home")
+            return redirect("home")
     else:
         form = PasswordChangeForm(user=request.user)
     return render(request,"registration/password_change.html",{"form":form})
@@ -87,7 +84,7 @@ def profile(request):
         userprof = UpdateUserProfile(request.POST , instance=request.user)
         if userprof.is_valid():
             userprof.save()
-            return redirect("src:profile")
+            return redirect("profile")
     else:
         userprof = UpdateUserProfile(instance=request.user)
         
@@ -95,19 +92,19 @@ def profile(request):
 
 @login_required
 def category_detail(request, item_id):
-    product = tbl_item.objects.get(id=item_id)
+    product = Barang.objects.get(id=item_id)
     if (request.method == "POST"):
         user = request.user.get_username()
         room = product.room
         id = product.id
         categories = product.category
-        item = get_object_or_404(tbl_item, id=id)
+        item = get_object_or_404(Barang, id=id)
         quantity = int(request.POST['quantity'])
         desc = request.POST['description']
-        loan = tbl_loan(
+        loan = Peminjaman(
                 item_code=id,
                 item=item, 
-                client=get_object_or_404(tbl_account, username=user),
+                client=get_object_or_404(Account, username=user),
                 lending_quantity=quantity, 
                 category=categories,
                 room=room,
@@ -126,7 +123,7 @@ KATEGORI                        : {categories}
         loan.save()
         item.quantity -= quantity
         item.save()
-        return redirect('src:lending')
+        return redirect('lending')
     return render(request,"pages/category_detail.html",{"product":product})
 
 @login_required
@@ -134,10 +131,10 @@ def category(request):
     if (request.method == "POST"):
         rooms = request.POST.get("room")
         categories=request.POST.get("category")
-        display= tbl_item.objects.filter(room=rooms, category=categories)
+        display= Barang.objects.filter(room=rooms, category=categories)
         return render(request,"pages/category.html",{"Items":display})
     else:
-        search = tbl_item.objects.filter()
+        search = Barang.objects.filter()
         return render(request,"pages/category.html",{"Items":search})
 
 @login_required
@@ -146,20 +143,20 @@ def lending(request):
     if request.method == "POST":
         id = request.POST["lend-code"]
         code = request.POST["item-code"]
-        item = get_object_or_404(tbl_item, id=code)
-        loan = tbl_loan.objects.get(pk=id)
+        item = get_object_or_404(Barang, id=code)
+        loan = Peminjaman.objects.get(pk=id)
         loan.status = "Dikembalikan"
         loan.return_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         loan.save()
         item.quantity += int(request.POST['quantity'])
         item.save()
-        return redirect("src:history")
+        return redirect("history")
 
-    return render(request, "pages/lending.html", {"borrow":tbl_loan.objects.all()})
+    return render(request, "pages/lending.html", {"borrow":Peminjaman.objects.all()})
 
 @login_required
 def history(request):
     context = {
-        "peminjaman":tbl_loan.objects.all()
+        "peminjaman":Peminjaman.objects.all()
     }
     return render(request, "pages/history.html",context)

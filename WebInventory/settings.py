@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'src',
+    'app',
+    'tailwind',
+    'theme'
 ]
 
 MIDDLEWARE = [
@@ -132,35 +134,34 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 STATIC_ROOT = BASE_DIR / 'staticfiles/'
 
-
-STATICFILES_DIR = [
-    os.path.join(BASE_DIR,"static/")
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR,"static")
 ]
 
-MEDIA_ROOT = os.path.join(BASE_DIR,"static/img/")
-MEDIA_URL = "product/"
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR,"media")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = "src:home"
-LOGOUT_REDIRECT_URL = "src:login"
+LOGIN_REDIRECT_URL = "home"
+LOGOUT_REDIRECT_URL = "login"
 
 JAZZMIN_SETTINGS = {
     'site_header': "Administrator",
     'site_brand': 'Metschoo Inventory',
     'site_logo' : "img/metland.png",
     "welcome_sign": "Administrator Panel",
-    "copyright": ""
+    "copyright": "Benjamin"
 }
 
-AUTH_USER_MODEL = 'src.tbl_account'
+AUTH_USER_MODEL = 'app.Account'
 
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -177,3 +178,12 @@ else:
 
 TELEGRAM_TOKEN = "[BOT_TOKEN]"
 CHAT_ID = "[CHAT_ID]"
+
+
+
+TAILWIND_APP_NAME = 'theme'
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+from shutil import which
+NPM_BIN_PATH = which("npm")

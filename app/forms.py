@@ -11,14 +11,14 @@ class RegistsForm(UserCreationForm):
   password1 = forms.CharField(widget=PasswordInput(attrs={'class':'textbox','id':'password','placeholder':'Password'}))
   password2 = forms.CharField(widget=PasswordInput(attrs={'class':'textbox','id':'password','placeholder':'Confirm Password'}))
   class Meta:
-    model = tbl_account
+    model = Account
     fields = ["username","email","password1","password2"]
     
 class LoginForm(AuthenticationForm):
   username = forms.CharField(widget=TextInput(attrs={'class':'textbox','placeholder':'Username'}))
   password = forms.CharField(widget=PasswordInput(attrs={'class':'textbox','id':'password','placeholder':'Password'}))
   class Meta:
-    model = tbl_account
+    model = Account
     fields = ["username","password"]
     
 class UpdateUserProfile(forms.ModelForm):
@@ -29,15 +29,10 @@ class UpdateUserProfile(forms.ModelForm):
   phonenumber = PhoneNumberField()
   
   class Meta:
-    model = tbl_account
+    model = Account
     fields = ["username","first_name", "last_name","email","phonenumber"]
     
 class PasswordChangeForm(PasswordChangeForm):
   class Meta:
-    model = tbl_account
+    model = Account
     fields = ['old_password','new_password1','new_password2']
-
-class ContactForm(forms.Form):
-  class Meta:
-    model = tbl_feedback
-    field = ['subject','description']
