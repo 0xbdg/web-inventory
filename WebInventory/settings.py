@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app',
     'tailwind',
-    'theme'
+    'theme',
 ]
 
 MIDDLEWARE = [
@@ -179,11 +179,11 @@ else:
 TELEGRAM_TOKEN = "[BOT_TOKEN]"
 CHAT_ID = "[CHAT_ID]"
 
-
-
+# Tailwind
 TAILWIND_APP_NAME = 'theme'
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
 from shutil import which
 NPM_BIN_PATH = which("npm")

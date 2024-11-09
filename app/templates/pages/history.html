@@ -1,35 +1,45 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %} History {% endblock %}
-{% block css %} <link rel="stylesheet" href="{% static 'css/user.css' %}" /> {% endblock %}
-{% block navbar %} {% include "components/usernav.html"%} {% endblock navbar%}
+{% block navbar %} {% include "components/sidebar.html"%} {% endblock navbar%}
+{% block header %} {% include "components/header.html" %}{% endblock %}
 {% block contents %}
-<main>
-  <table>
-    <tr>
-      <th>Nama barang</th>
-      <th>Kategori</th>
-      <th>Ruangan</th>
-      <th>Jumlah pinjam</th>
-      <th>Waktu peminjaman</th>
-      <th>Waktu kembali</th>
-      <th>Status</th>
-    </tr>
-    {% for lending in peminjaman%}
-      {% if lending.client == user%}
-        {% if lending.status == "Dikembalikan" %}
+<div class="max-w-6xl mx-auto p-6">
+  <h1 class="text-3xl font-bold text-center mb-8">Riwayat Peminjaman</h1>
+
+  <div class="overflow-x-auto bg-white shadow rounded-lg">
+    <table class="min-w-full divide-y divide-gray-200">
+      <thead class="bg-gray-50">
         <tr>
-          <td>{{lending.item}}</td>
-          <td>{{lending.category}}</td>
-          <td>{{lending.room}}</td>
-          <td>{{lending.lending_quantity}}</td>
-          <td>{{lending.date_lending}}</td>
-          <td>{{lending.return_time}}</td>
-          <td>{{lending.status}}</td>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Barang</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jumlah</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Waktu Pinjam</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Waktu Kembali</th>
+          <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        {% for lending in peminjaman %}
+        {% if lending.client == user %}
+        <tr>
+          {% if lending.status == "Dikembalikan" %}
+          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{lending.item}}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ lending.lending_quantity }}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ lending.date_lending}}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ lending.return_time}}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ lending.status }}</td>
+          {% elif lending.status == "Dibatalkan" %}
+          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{lending.item}}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ lending.lending_quantity }}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ lending.date_lending}}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ lending.return_time}}</td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ lending.status }}</td>
+          {% endif %}
         </tr>
         {% endif %}
-      {% endif %}
-    {%endfor%}
-  </table>
-</main>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
 {% endblock contents %}

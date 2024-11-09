@@ -16,6 +16,9 @@ class ItemConfigAdmin(admin.ModelAdmin):
     readonly_fields = ('item',)
     
 class LendingConfigAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        return False 
+    
     list_display = ("client","item","category","room","lending_quantity","date_lending","return_time","status")
     list_filter = ["status"]
 
@@ -23,7 +26,7 @@ class LendingConfigAdmin(admin.ModelAdmin):
 
 class CustomUserAdmin(UserAdmin):
     model = Account
-    list_display = ['username', 'first_name', 'last_name','email','phonenumber', 'is_staff', 'is_active', 'date_joined']
+    list_display = ['username','is_staff', 'is_active', 'date_joined']
     fieldsets = (
         (None, {'fields': ('email', 'username', 'password')}),
         ('Personal Info', {'fields': ('first_name', 'last_name', 'phonenumber')}),

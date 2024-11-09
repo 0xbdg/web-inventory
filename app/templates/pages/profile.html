@@ -1,38 +1,51 @@
-{% extends 'layout/base.html'%} 
+{% extends 'base.html'%} 
 {% load static %} 
 {% block title %} Profile{% endblock %} 
-{% block css %}
-<link rel="stylesheet" href="{% static 'css/user.css' %}" /> {% endblock %}
-{% block navbar %} {% include "components/usernav.html" %} {% endblock navbar%}
-{% block contents%}
-<main>
-  <h2>Profil Saya</h2>
-  <p>
-    Kelola profil anda untuk mengontrol, melindungi, dan mengamankan akun anda.
-  </p>
-  <hr />
-  <form method="POST" enctype="multipart/form-data" class="prof-info">
-    {% csrf_token %}
-    <label for="username">Change Username</label>
-    {{ editform.username }}<br>
-    <label for="firstname">Firstname</label><br>
-    {{ editform.first_name }}<br>
-    <label for="lastname">Lastname</label><br>
-    {{ editform.last_name }} <br>
-    <label for="email">Change Email</label><br>
-    {{ editform.email }} <br>
-    <label for="phonenumber">Phonenumber</label>
-    {{ editform.phonenumber }}<br>
-    <input type="submit" value="Update" />
-  </form>
-  <h3>Password</h3>
-  <a href="{% url 'password_change'%}">Change Password</a><br>
-  <a href="{% url 'password_reset'%}">Reset Password</a>
 
-  <h3>Sign Out</h3>
-  <form action="{% url 'logout' %}" method="post" > 
-    {% csrf_token%}
-    <button type="submit">Log Out</button>
-  </form>
-</main>
-{% endblock contents%}
+{% block navbar %} {% include "components/sidebar.html" %} {% endblock navbar%}
+{% block header %} {% include "components/header.html" %}{% endblock %}
+
+{% block contents%}
+<h2 class="text-3xl font-bold text-center text-gray-800 mb-6">Edit Your Account</h2>
+<form action="{% url 'profile'%}" method="POST" enctype="multipart/form-data" class="space-y-6">
+  <div>
+    <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
+    <input type="text" id="name" name="name" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out" placeholder="Enter your full name">
+  </div>
+
+  <div>
+    <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+    <input type="email" id="email" name="email" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out" placeholder="Enter your email address">
+  </div>
+
+  <div>
+    <label for="password" class="block text-sm font-medium text-gray-700">New Password</label>
+    <input type="password" id="password" name="password" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out" placeholder="Enter a new password">
+  </div>
+
+  <div>
+    <label for="confirm-password" class="block text-sm font-medium text-gray-700">Confirm New Password</label>
+    <input type="password" id="confirm-password" name="confirm-password" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out" placeholder="Confirm your new password">
+  </div>
+
+  <div class="flex justify-center">
+    <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 focus:outline-none transition duration-300 ease-in-out">Save Changes</button>
+  </div>
+</form>
+
+<div class="mt-8 space-y-4">
+            <!-- Logout Button -->
+  <div class="flex justify-center">
+    <form action="{% url 'logout'%}" method="POST">{% csrf_token %}<button onclick="window.location.href='/logout'" class="w-full sm:w-auto px-6 py-2 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 focus:outline-none transition duration-300 ease-in-out">Logout</button></form>
+  </div>
+
+  <div class="flex justify-center">
+    <button onclick="window.location.href='/reset-password'" class="w-full sm:w-auto px-6 py-2 bg-yellow-500 text-white rounded-lg font-medium hover:bg-yellow-600 focus:outline-none transition duration-300 ease-in-out">Reset Password</button>
+  </div>
+
+            <!-- Change Password Button -->
+  <div class="flex justify-center">
+    <button onclick="window.location.href='/change-password'" class="w-full sm:w-auto px-6 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 focus:outline-none transition duration-300 ease-in-out">Change Password</button>
+  </div>
+</div>
+{% endblock %}

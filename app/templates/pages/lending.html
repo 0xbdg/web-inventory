@@ -1,37 +1,54 @@
-{% extends "layout/base.html"%}
+{% extends "base.html"%}
 {% load static%}
 {% block title %} Lending {% endblock %}
-{% block css %} <link rel="stylesheet" href="{% static 'css/user.css' %}" />  {% endblock %}
-{% block navbar %} {% include "components/usernav.html"%} {% endblock navbar%}
+
+{% block navbar %} {% include "components/sidebar.html"%} {% endblock navbar%}
+{% block header %}{% include "components/header.html" %}{% endblock %}
 {% block contents %}
-<main>
-  {% for lend in borrow%}
-  {% if lend.client == user %}
-    {% if lend.status == "Diproses"%}
-    <div>
-      <h3>{{ lend.item }}</h3>
-      <p>Lend code: {{ lend.id }}</p>
-      <p>Item code: {{ lend.item_code }}</p>
-      <p>Quantity: {{ lend.lending_quantity}}</p>
-      <p>Status: {{ lend.status }}</p>
+<div class="container mx-auto p-6">
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    {% for pinjam in borrow %}
+    {% if pinjam.client == user %}
+    {% if pinjam.status == "Diterima" %}
+    <div class="bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 duration-300">
+      <div class="p-4">
+        <h2 class="text-xl font-semibold text-gray-800">{{ pinjam.item }}</h2>
+        <p class="text-gray-600 text-sm mt-2">Jumlah pinjam: <span class="font-semibold text-green-600">{{ pinjam.lending_quantity }}</span></p>
+        <p class="text-gray-600 text-sm">Waktu pinjam: <span class="font-semibold">{{ pinjam.date_lending}}</span></p>
+        <div class="mt-4">
+          <span class="inline-block text-xs font-medium py-1 px-3 rounded-full bg-green-100 text-green-600 hover:bg-green-200 transition-all duration-200">Diterima</span>
+        </div>
+        <form class="mt-4 flex justify-between items-center" methpd="POST" action="{% url 'lending'%}">
+          {% csrf_token %}
+          <input class="hidden" name="lend-code" value="{{ pinjam.id }}">
+          <input class="hidden" name="item-code" value="{{ pinjam.item_code }}">
+          <input class="hidden" name="quantity" value="{{ pinjam.lending_quantity }}">
+          <button name="kembalikan" class="bg-green-300 text-green-700 py-2 px-4 rounded-full text-sm hover:bg-gray-400 transition-colors duration-200">Kembalikan</button>
+        </form>
+      </div>
     </div>
-    {% elif lend.status == "Diterima" %}
-    <div>
-      <h3>{{ lend.item }}</h3>
-      <p>Lend code: {{ lend.id }}</p>
-      <p>Item code: {{ lend.item_code }}</p>
-      <p>Quantity: {{ lend.lending_quantity}}</p>
-      <p>Status: {{ lend.status }}</p>
-      <form method="POST" action="{% url 'lending' %}">
-        {% csrf_token %}
-        <input type="hidden" name="lend-code" value="{{ lend.id }}" readonly>
-        <input type="hidden" name="item-code" value="{{ lend.item_code }}" readonly>
-        <input type="hidden" value="{{ lend.lending_quantity }}" name="quantity" readonly >
-        <input type="submit" value="kembalikan">
-      </form>
+    {% elif pinjam.status == "Diproses" %}
+    <div class="bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden transition-transform transform hover:scale-105 duration-300">
+      <div class="p-4">
+        <h2 class="text-xl font-semibold text-gray-800">{{ pinjam.item}}</h2>
+        <p class="text-gray-600 text-sm mt-2">Jumlah pinjam: <span class="font-semibold text-yellow-600">{{pinjam.lending_quantity}}</span></p>
+        <p class="text-gray-600 text-sm">Waktu pinjam: <span class="font-semibold">{{ pinjam.date_lending}}</span></p>
+        <div class="mt-4">
+          <span class="inline-block text-xs font-medium py-1 px-3 rounded-full bg-yellow-100 text-yellow-600 hover:bg-yellow-200 transition-all duration-200">Sedang diproses</span>
+        </div>
+        <form class="mt-4 flex justify-between items-center" method="POST" action="{% url 'lending'%}">
+          {% csrf_token %}
+          <input class="hidden" name="lend-code" value="{{ pinjam.id }}">
+          <input class="hidden" name="item-code" value="{{ pinjam.item_code }}">
+          <input class="hidden" name="quantity" value="{{ pinjam.lending_quantity }}">
+          <button name="batal" class="bg-red-300 text-red-700 py-2 px-4 rounded-full text-sm hover:bg-gray-400 transition-colors duration-200">Batalkan</button>
+        </form>
+      </div>
     </div>
     {% endif %}
-  {% endif %}
-  {% endfor %}
-</main>
+    {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
 {% endblock contents %}

@@ -111,6 +111,7 @@ def category_detail(request, item_id):
                 description=desc,
                 status="Diproses"
             )
+        '''
         telegram_notify(
 f"""
 NAMA PEMINJAM                   : {user}
@@ -119,7 +120,7 @@ LOKASI/RUANGAN BARANG           : {room}
 JUMLAH BARANG YANG DIPINJAM     : {quantity}
 KATEGORI                        : {categories}
 """
-            )
+            )'''
         loan.save()
         item.quantity -= quantity
         item.save()
@@ -139,18 +140,27 @@ def category(request):
 
 @login_required
 def lending(request):
-
     if request.method == "POST":
         id = request.POST["lend-code"]
         code = request.POST["item-code"]
         item = get_object_or_404(Barang, id=code)
         loan = Peminjaman.objects.get(pk=id)
-        loan.status = "Dikembalikan"
-        loan.return_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        loan.save()
-        item.quantity += int(request.POST['quantity'])
-        item.save()
-        return redirect("history")
+
+        if "kembalikan" in request.POST:
+            loan.status = "Dikembalikan"
+            loan.return_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            loan.save()
+            item.quantity += int(request.POST['quantity'])
+            item.save()
+            return redirect("history")
+        
+        if "batal" in request.POST:
+            loan.status = "Dibatalkan"
+            loan.return_time = None
+            loan.save()
+            item.quantity += int(request.POST['quantity'])
+            item.save()
+            return redirect("history")
 
     return render(request, "pages/lending.html", {"borrow":Peminjaman.objects.all()})
 
