@@ -50,10 +50,11 @@ def signin(request):
         
     return render(request,"registration/login.html",{"form":forms})
 
+@login_required
 def logouts(request):
     if request.method == 'POST':
         logout(request)
-        return redirect("src:login")
+        return redirect("login")
 
 @login_required
 def change_password(request):
@@ -81,7 +82,7 @@ def reset_password_done(request):
 @login_required
 def profile(request):
     if (request.method == "POST"):
-        userprof = UpdateUserProfile(request.POST , instance=request.user)
+        userprof = UpdateUserProfile(data=request.POST , instance=request.user)
         if userprof.is_valid():
             userprof.save()
             return redirect("profile")
@@ -166,7 +167,4 @@ def lending(request):
 
 @login_required
 def history(request):
-    context = {
-        "peminjaman":Peminjaman.objects.all()
-    }
-    return render(request, "pages/history.html",context)
+    return render(request, "pages/history.html",context={"peminjaman":Peminjaman.objects.all()[::-1]})

@@ -45,7 +45,7 @@ class Account(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
     email = models.EmailField(unique=True)
-    phonenumber = PhoneNumberField()
+    phonenumber = PhoneNumberField(region="ID")
     date_joined = models.DateTimeField(default=datetime.datetime.now)
 
     is_superuser = models.BooleanField(default=False)

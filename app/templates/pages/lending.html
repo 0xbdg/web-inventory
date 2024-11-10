@@ -18,7 +18,7 @@
         <div class="mt-4">
           <span class="inline-block text-xs font-medium py-1 px-3 rounded-full bg-green-100 text-green-600 hover:bg-green-200 transition-all duration-200">Diterima</span>
         </div>
-        <form class="mt-4 flex justify-between items-center" methpd="POST" action="{% url 'lending'%}">
+        <form class="mt-4 flex justify-between items-center" method="POST" action="{% url 'lending'%}">
           {% csrf_token %}
           <input class="hidden" name="lend-code" value="{{ pinjam.id }}">
           <input class="hidden" name="item-code" value="{{ pinjam.item_code }}">

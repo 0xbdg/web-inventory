@@ -7,29 +7,36 @@
 
 {% block contents%}
 <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">Edit Your Account</h2>
+{{ editform.errors.items}}
 <form action="{% url 'profile'%}" method="POST" enctype="multipart/form-data" class="space-y-6">
+  {% csrf_token %}
   <div>
-    <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
-    <input type="text" id="name" name="name" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out" placeholder="Enter your full name">
+    <label for="name" class="block text-sm font-medium text-gray-700">Username</label>
+    {{ editform.username}}
   </div>
 
   <div>
-    <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
-    <input type="email" id="email" name="email" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out" placeholder="Enter your email address">
+    <label for="firstname" class="block text-sm font-medium text-gray-700">Firstname</label>
+    {{ editform.first_name}}
   </div>
 
   <div>
-    <label for="password" class="block text-sm font-medium text-gray-700">New Password</label>
-    <input type="password" id="password" name="password" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out" placeholder="Enter a new password">
+    <label for="lastname" class="block text-sm font-medium text-gray-700">Lastname</label>
+    {{ editform.last_name }}
   </div>
 
   <div>
-    <label for="confirm-password" class="block text-sm font-medium text-gray-700">Confirm New Password</label>
-    <input type="password" id="confirm-password" name="confirm-password" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300 ease-in-out" placeholder="Confirm your new password">
+    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+    {{ editform.email }}
+  </div>
+
+  <div>
+    <label for="phone" class="block text-sm font-medium text-gray-700">Phonenumber</label>
+    {{editform.phonenumber}}
   </div>
 
   <div class="flex justify-center">
-    <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 focus:outline-none transition duration-300 ease-in-out">Save Changes</button>
+    <input type="submit" placeholder="Simpan perubahan" class="px-6 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 focus:outline-none transition duration-300 ease-in-out">
   </div>
 </form>
 
@@ -40,7 +47,7 @@
   </div>
 
   <div class="flex justify-center">
-    <button onclick="window.location.href='/reset-password'" class="w-full sm:w-auto px-6 py-2 bg-yellow-500 text-white rounded-lg font-medium hover:bg-yellow-600 focus:outline-none transition duration-300 ease-in-out">Reset Password</button>
+    <button onclick="window.location.href='{% url 'password_reset'%}'" class="w-full sm:w-auto px-6 py-2 bg-yellow-500 text-white rounded-lg font-medium hover:bg-yellow-600 focus:outline-none transition duration-300 ease-in-out">Reset Password</button>
   </div>
 
             <!-- Change Password Button -->
