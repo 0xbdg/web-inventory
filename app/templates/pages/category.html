@@ -65,7 +65,11 @@
             </div>
           </div>
           <div class="mt-4">
+            {% if product.quantity <= 0 %}
+            <button class="w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-600 transition-all duration-200">Empty</button>
+            {% else %}
             <button class="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-all duration-200" onclick="window.location.href='{% url 'category-detail' item_id=product.id %}'">Add to Cart</button>
+            {% endif %}
           </div>
         </div>
       </div>

@@ -22,13 +22,7 @@
         {% for lending in peminjaman %}
         {% if lending.client == user %}
         <tr>
-          {% if lending.status == "Dikembalikan" %}
-          <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{lending.item}}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ lending.lending_quantity }}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ lending.date_lending}}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ lending.return_time}}</td>
-          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ lending.status }}</td>
-          {% elif lending.status == "Dibatalkan" %}
+          {% if lending.status == "Dikembalikan" or lending.status == "Dibatalkan" %}
           <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{lending.item}}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ lending.lending_quantity }}</td>
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ lending.date_lending}}</td>

@@ -75,7 +75,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'WebInventory.wsgi.application'
+WSGI_APPLICATION = 'MetschooInventory.wsgi.application'
 
 
 # Database

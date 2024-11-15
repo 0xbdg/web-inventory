@@ -6,7 +6,7 @@ import datetime, requests
 from .forms import *
 from .models import *
 
-from WebInventory.settings import TELEGRAM_TOKEN, CHAT_ID
+from MetschooInventory.settings import TELEGRAM_TOKEN, CHAT_ID
 
 def telegram_notify(message):
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
