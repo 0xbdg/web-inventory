@@ -32,7 +32,6 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    "admin_honeypot",
     'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -56,7 +55,7 @@ MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
-ROOT_URLCONF = 'WebInventory.urls'
+ROOT_URLCONF = 'MetschooInventory.urls'
 
 TEMPLATES = [
     {
