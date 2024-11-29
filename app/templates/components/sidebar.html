@@ -1,4 +1,14 @@
 {% load static%}
+<div id="overlayNav" class="overlay">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <div class="overlay-content">
+    <a href="{% url 'home' %}">Dashboard</a>
+    <a href="{% url 'category'%}">Barang</a>
+    <a href="{% url 'lending'%}">Peminjaman</a>
+    <a href="{% url 'history'%}">Riwayat</a>
+    <a href="{% url 'profile'%}">Pengaturan</a>
+  </div>
+</div>
 <div class="hidden md:flex flex-col w-64 bg-gray-800">
   <div class="flex items-center justify-center h-16 bg-gray-900">
       <span class="text-white font-bold uppercase">Metschoo Inventory</span>
